@@ -1,0 +1,190 @@
+﻿
+@{
+    ViewBag.Title = "GetAllGeneros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Generos registrados</div>
+        </div>
+        <div class="card-body">
+            <div class="col-sm-12 col-md-5 col-lg-5">
+                <table id="tblData" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="eliminarModal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Administra Genero</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <h2 id="tituloMensaje">Deseas eliminar el registro?</h2>
+
+                    <h5 id="tituloActualizar">Actualiza el Registro</h5>
+                    <br />
+                    <input type="text" class="form-control input-group-sm" required  id="txtStrValor"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-primary" id="btnEditar">
+                        Actualizar
+                    </button>
+                    <button type="button" data-dismiss="modal" class="btn btn-danger" id="btnEliminar">
+                        Eliminar
+                    </button>
+                    <button type="button" data-dismiss="modal" class="btn btn-success">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script>
+
+        function AddEditar(Id) {
+            localStorage.removeItem("identificador");
+            $('#btnEliminar').hide();
+            $('#tituloMensaje').hide();
+            $('#btnEditar').show();
+            $('#tituloActualizar').show();
+            $('#txtStrValor').show();
+            $('#eliminarModal').modal('show');
+            localStorage.setItem("identificador", Id);
+        }
+
+        function AddEliminar(Id) {
+
+            $('#btnEliminar').show();
+            $('#tituloMensaje').show();
+            $('#btnEditar').hide();
+            $('#tituloActualizar').hide();
+            $('#txtStrValor').hide();
+
+            localStorage.removeItem("identificador");
+            $('#eliminarModal').modal('show');
+            localStorage.setItem("identificador", Id);
+        };
+        $(document).ready(function () {
+
+            $('#tituloMensaje').hide();
+            $('#btnEliminar').hide();
+            $('#btnEditar').hide();
+
+
+            $.ajax({
+                type: 'GET',
+                url: 'https://localhost:44338/api/Generos',
+                data: '',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+
+                    toastr.success('Se Guardo de Forma Adecuada la Solicitud', { timeOut: 1000, closeButton: true });
+                    BindTable(data);
+                },
+                error: function (xhr) {
+                    toastr.error('No se pudo procesar la información de forma adecuada', 'Beneficiarios dice:', { timeOut: 1000, closeButton: true });
+                    console.log(xhr.responseText);
+                }
+            });
+
+            var BindTable = function (response) {
+                $('#tblData').DataTable({
+                    destroy: true,
+                    "aaData": response,
+                    "aoColumns": [
+                        { "mData": "Id" },
+                        { "mData": "StrValor" },
+                        {
+                            "mData": "Id",
+                            "render": (Id, type, full, meta) => {
+                                return '<a href="#" onclick="AddEditar(' + Id + ')" class="btn btn-sm btn-default"><i class="fas fa-user-edit"></i></a>'
+                            }
+                        },
+                        {
+                            "mData": "Id",
+                            "render": (Id, type, full, meta) => {
+                                return '<a href="#" onclick="AddEliminar(' + Id + ')" class="btn btn-sm btn-default"><i class="fas fa-trash"></i></a>'
+                            },
+                        },
+                    ]
+                });
+            };
+
+            $('#btnEliminar').click(function () {
+                var Id = localStorage.getItem("identificador");
+                console.log(Id);
+                 
+                $.ajax({
+                    type: 'DELETE',
+                    url: 'https://localhost:44338/api/Generos/'+Id,
+                    data: '',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        ///window.location.href = '';
+                        localStorage.removeItem("identificador");
+                    },
+                    error: function (xhr) {
+                        toastr.error('No se pudo procesar la información de forma adecuada', 'Beneficiarios dice:', { timeOut: 1000, closeButton: true });
+                        
+                    }
+                });
+
+            });
+
+            $('#btnEditar').click(function () {
+                var Id = localStorage.getItem("identificador");
+                var genero = {};
+                genero.Id = Id;
+                genero.StrValor = $('#txtStrValor').val();
+                
+
+                $.ajax({
+                    type: 'PUT',
+                    url: 'https://localhost:44338/api/Generos',
+                    data: JSON.stringify(genero),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        toastr.info("Se Actualizo correctamente", "Beneficiarios dice:", { timeOut: 1000, closeButton: true });
+                        console.log('Listo ya se elimino');
+                        localStorage.removeItem("identificador");
+                    },
+                    error: function (xhr) {
+                        toastr.error('No se pudo procesar la información de forma adecuada', 'Beneficiarios dice:', { timeOut: 1000, closeButton: true });
+
+                    }
+                });
+
+            });
+
+
+
+        });
+    </script>
+
+}

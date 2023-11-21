@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GestionSolicitudesDBModelStoreContainer" CdmEntityContainer="GestionSolicitudesDBEntities">
+    <EntitySetMapping Name="beneficiarios">
+      <EntityTypeMapping TypeName="GestionSolicitudesDBModel.beneficiarios">
+        <MappingFragment StoreEntitySet="beneficiarios">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+          <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+          <ScalarProperty Name="Curp" ColumnName="Curp" />
+          <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+          <ScalarProperty Name="IdSexo" ColumnName="IdSexo" />
+          <ScalarProperty Name="IdTelefono" ColumnName="IdTelefono" />
+          <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="direcciones">
+      <EntityTypeMapping TypeName="GestionSolicitudesDBModel.direcciones">
+        <MappingFragment StoreEntitySet="direcciones">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StrCalle" ColumnName="StrCalle" />
+          <ScalarProperty Name="StrNumInterior" ColumnName="StrNumInterior" />
+          <ScalarProperty Name="StrNumExterior" ColumnName="StrNumExterior" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="generos">
+      <EntityTypeMapping TypeName="GestionSolicitudesDBModel.generos">
+        <MappingFragment StoreEntitySet="generos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="StrValor" ColumnName="StrValor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="telefonos">
+      <EntityTypeMapping TypeName="GestionSolicitudesDBModel.telefonos">
+        <MappingFragment StoreEntitySet="telefonos">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="strNumeroCelular" ColumnName="strNumeroCelular" />
+          <ScalarProperty Name="strNumeroCasa" ColumnName="strNumeroCasa" />
+          <ScalarProperty Name="strNumeroTrabajo" ColumnName="strNumeroTrabajo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

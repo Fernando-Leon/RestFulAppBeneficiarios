@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "GetAllBeneficiarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header alert-info">
+            <div class="card-title">Beneficiarios</div>
+        </div>
+        <div class="card-body">
+            <table id="tblData" class="table table-hover table-responsive-sm">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>A.Paterno</th>
+                        <th>A.Materno</th>
+                        <th>Curp</th>
+                        <th>Calle</th>
+                        <th>Celular</th>
+                        <th>Casa</th>
+                        <th>Trabajo</th>
+
+                    </tr>
+                </thead>
+                <tbody id="tblBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts{
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            type: 'GET',
+            url: 'https://localhost:44338/api/Beneficiario',
+            data: '',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+
+                toastr.success('Se Guardo de Forma Adecuada la Solicitud', { timeOut: 1000, closeButton: true });
+                console.log(data);
+                BindTable(data);
+            },
+            error: function (xhr) {
+                toastr.error('No se pudo procesar la información de forma adecuada', 'Beneficiarios dice:', { timeOut: 1000, closeButton: true });
+                console.log(xhr.responseText);
+            }
+        });
+
+
+        var BindTable = function (response) {
+            $('#tblData').DataTable({
+                destroy: true,
+                "aaData": response,
+                "aoColumns": [
+                    { "mData": "Nombre" },
+                    { "mData": "ApellidoPaterno" },
+                    { "mData": "ApellidoMaterno" },
+                    { "mData": "Curp" },
+                    { "mData": "DireccionDto.StrCalle" },
+                    { "mData": "TelefonoDto.StrNumeroCelular" },
+                    { "mData": "TelefonoDto.StrNumeroCasa" },
+                    { "mData": "TelefonoDto.StrNumeroTrabajo" },
+                   
+                ]
+            });
+        };
+    });
+    </script>    
+}

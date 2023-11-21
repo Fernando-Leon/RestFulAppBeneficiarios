@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GestionSolicitudesDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="beneficiarios">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Curp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="FechaNacimiento" Type="DateTime" Precision="0" />
+    <Property Name="IdSexo" Type="Int32" />
+    <Property Name="IdTelefono" Type="Int32" />
+    <Property Name="IdDireccion" Type="Int32" />
+    <NavigationProperty Name="direcciones" Relationship="Self.FK_beneficiarios_direcciones" FromRole="beneficiarios" ToRole="direcciones" />
+    <NavigationProperty Name="generos" Relationship="Self.FK_beneficiarios_generos" FromRole="beneficiarios" ToRole="generos" />
+    <NavigationProperty Name="telefonos" Relationship="Self.FK_beneficiarios_telefonos" FromRole="beneficiarios" ToRole="telefonos" />
+  </EntityType>
+  <EntityType Name="direcciones">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StrCalle" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="StrNumInterior" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="StrNumExterior" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="beneficiarios" Relationship="Self.FK_beneficiarios_direcciones" FromRole="direcciones" ToRole="beneficiarios" />
+  </EntityType>
+  <EntityType Name="generos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StrValor" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="beneficiarios" Relationship="Self.FK_beneficiarios_generos" FromRole="generos" ToRole="beneficiarios" />
+  </EntityType>
+  <EntityType Name="telefonos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="strNumeroCelular" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="strNumeroCasa" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="strNumeroTrabajo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="beneficiarios" Relationship="Self.FK_beneficiarios_telefonos" FromRole="telefonos" ToRole="beneficiarios" />
+  </EntityType>
+  <Association Name="FK_beneficiarios_direcciones">
+    <End Role="direcciones" Type="Self.direcciones" Multiplicity="0..1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="direcciones">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="IdDireccion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_beneficiarios_generos">
+    <End Role="generos" Type="Self.generos" Multiplicity="0..1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="generos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="IdSexo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_beneficiarios_telefonos">
+    <End Role="telefonos" Type="Self.telefonos" Multiplicity="0..1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="telefonos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="IdTelefono" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GestionSolicitudesDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="beneficiarios" EntityType="Self.beneficiarios" />
+    <EntitySet Name="direcciones" EntityType="Self.direcciones" />
+    <EntitySet Name="generos" EntityType="Self.generos" />
+    <EntitySet Name="telefonos" EntityType="Self.telefonos" />
+    <AssociationSet Name="FK_beneficiarios_direcciones" Association="Self.FK_beneficiarios_direcciones">
+      <End Role="direcciones" EntitySet="direcciones" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_beneficiarios_generos" Association="Self.FK_beneficiarios_generos">
+      <End Role="generos" EntitySet="generos" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_beneficiarios_telefonos" Association="Self.FK_beneficiarios_telefonos">
+      <End Role="telefonos" EntitySet="telefonos" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

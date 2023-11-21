@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bdbeneficiariosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="beneficiarios">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="apellido_paterno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="apellido_materno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="curp" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fecha_nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="id_sexo" Type="Int32" Nullable="false" />
+    <Property Name="id_telefono" Type="Int32" />
+    <Property Name="id_direccion" Type="Int32" />
+    <NavigationProperty Name="direcciones" Relationship="Self.fkid_direccion" FromRole="beneficiarios" ToRole="direcciones" />
+    <NavigationProperty Name="generos" Relationship="Self.fkid_sexo" FromRole="beneficiarios" ToRole="generos" />
+    <NavigationProperty Name="telefonos" Relationship="Self.fkid_telefono" FromRole="beneficiarios" ToRole="telefonos" />
+  </EntityType>
+  <EntityType Name="direcciones">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StrCalle" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="StrNumeroInterior" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="StrNumeroExterior" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="beneficiarios" Relationship="Self.fkid_direccion" FromRole="direcciones" ToRole="beneficiarios" />
+  </EntityType>
+  <EntityType Name="generos">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StrValor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="beneficiarios" Relationship="Self.fkid_sexo" FromRole="generos" ToRole="beneficiarios" />
+  </EntityType>
+  <EntityType Name="telefonos">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="strNumeroCelular" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="strNumeroCasa" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="strNumeroTrabajo" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="beneficiarios" Relationship="Self.fkid_telefono" FromRole="telefonos" ToRole="beneficiarios" />
+  </EntityType>
+  <Association Name="fkid_direccion">
+    <End Role="direcciones" Type="Self.direcciones" Multiplicity="0..1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="direcciones">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="id_direccion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkid_sexo">
+    <End Role="generos" Type="Self.generos" Multiplicity="1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="generos">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="id_sexo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fkid_telefono">
+    <End Role="telefonos" Type="Self.telefonos" Multiplicity="0..1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="telefonos">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="id_telefono" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="bdbeneficiariosEntities4" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="beneficiarios" EntityType="Self.beneficiarios" />
+    <EntitySet Name="direcciones" EntityType="Self.direcciones" />
+    <EntitySet Name="generos" EntityType="Self.generos" />
+    <EntitySet Name="telefonos" EntityType="Self.telefonos" />
+    <AssociationSet Name="fkid_direccion" Association="Self.fkid_direccion">
+      <End Role="direcciones" EntitySet="direcciones" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+    <AssociationSet Name="fkid_sexo" Association="Self.fkid_sexo">
+      <End Role="generos" EntitySet="generos" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+    <AssociationSet Name="fkid_telefono" Association="Self.fkid_telefono">
+      <End Role="telefonos" EntitySet="telefonos" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

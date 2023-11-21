@@ -1,0 +1,261 @@
+﻿@model ApPBeneficiarios.Models.BeneficiarioDto
+
+@{
+    ViewBag.Title = "CreateBenficiario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", id = "Nombre" } })
+                        @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ApellidoPaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ApellidoPaterno, new { htmlAttributes = new { @class = "form-control", id = "ApellidoPaterno" } })
+                        @Html.ValidationMessageFor(model => model.ApellidoPaterno, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ApellidoMaterno, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ApellidoMaterno, new { htmlAttributes = new { @class = "form-control", id = "ApellidoMaterno" } })
+                        @Html.ValidationMessageFor(model => model.ApellidoMaterno, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Curp, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Curp, new { htmlAttributes = new { @class = "form-control", id = "Curp" } })
+                        @Html.ValidationMessageFor(model => model.Curp, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <input type="date" class="form-control" id = "FechaNacimiento" />
+                        
+                    </div>
+                </div>
+
+                <div class="form-group">
+                  
+                    <div class="col-md-10">
+                        <select name="select" class="form-control" id="idGenero">
+                            <option value="Select">Seleccionar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="Guardar" class="btn btn-success" id="BtnRegistrar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="control-label col-md-2">Telefono:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TelefonoDto.StrNumeroCasa, new { htmlAttributes = new { @class = "form-control", placeholder = "Num. Casa", id = "StrNumeroCasa" } })
+                        @Html.ValidationMessageFor(model => model.TelefonoDto.StrNumeroCasa, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Celular:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TelefonoDto.StrNumeroCelular, new { htmlAttributes = new { @class = "form-control", placeholder = "Num. Celular", id = "StrNumeroCelular" } })
+                        @Html.ValidationMessageFor(model => model.TelefonoDto.StrNumeroCelular, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Trabajo:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.TelefonoDto.StrNumeroTrabajo, new { htmlAttributes = new { @class = "form-control", placeholder = "Num. del Trabajo", id = "StrNumeroTrabajo" } })
+                        @Html.ValidationMessageFor(model => model.TelefonoDto.StrNumeroTrabajo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Direccion:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DireccionDto.StrCalle, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingresa la Calle", id = "StrCalle" } })
+                        @Html.ValidationMessageFor(model => model.DireccionDto.StrCalle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Num. Interior:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DireccionDto.StrNumeroInterior, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingresa el Num. interior", id = "StrNumeroInterior" } })
+                        @Html.ValidationMessageFor(model => model.DireccionDto.StrNumeroInterior, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Num.Exterior:</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.DireccionDto.StrNumeroExterior, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingresa el Num.Exterior", id = "StrNumeroExterior" } })
+                        @Html.ValidationMessageFor(model => model.DireccionDto.StrNumeroExterior, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#idGenero').html('');
+        $.ajax({
+            type: 'GET',
+            url: 'https://localhost:44338/api/Generos',
+            data: '',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                               
+                var options = '';
+                options += '<option value="Select">Seleccionar</option>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="' + data[i].Id + '">' + data[i].StrValor + '</option>'; 
+                }
+                $('#idGenero').append(options);
+                toastr.info('Se Cargo la información de forma adecuada', { timeOut: 1000, closeButton: true });
+                
+            },
+            error: function (xhr) {
+                toastr.error('No se pudo procesar la información de forma adecuada', 'Beneficiarios dice:', { timeOut: 1000, closeButton: true });
+                console.log(xhr.responseText);
+            }
+        });
+
+        $('#idGenero').change(function () {
+
+            var valor = $('#idGenero').val();
+            //alert(valor);
+        });
+
+        $('#BtnRegistrar').click(function () {
+
+            var generoId = $('#idGenero').val();
+            var BeneficiarioDto = {};
+            BeneficiarioDto.Nombre = $('#Nombre').val();
+            BeneficiarioDto.ApellidoPaterno = $('#ApellidoPaterno').val();
+            BeneficiarioDto.ApellidoMaterno = $('#ApellidoMaterno').val();
+            BeneficiarioDto.Curp = $('#Curp').val();
+            BeneficiarioDto.FechaNacimiento = $('#FechaNacimiento').val();
+
+            var Telefono = {};
+            Telefono.StrNumeroCasa = $('#StrNumeroCasa').val();
+            Telefono.StrNumeroCelular = $('#StrNumeroCelular').val();
+            Telefono.StrNumeroTrabajo = $('#StrNumeroTrabajo').val();
+            BeneficiarioDto.TelefonoDto = Telefono;
+
+            var Direccion = {};
+
+            Direccion.StrCalle = $('#StrCalle').val();
+            Direccion.StrNumeroInterior = $('#StrNumeroInterior').val();
+            Direccion.StrNumeroExterior = $('#StrNumeroExterior').val();
+            BeneficiarioDto.DireccionDto = Direccion;
+            BeneficiarioDto.IdGenero = generoId;
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://localhost:44338/api/Beneficiario/',
+                data: JSON.stringify(BeneficiarioDto),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                  
+                    toastr.success('Se Agrego de Forma Adecuada la Solicitud', { timeOut: 1000, closeButton: true });
+                   
+                },
+                error: function (xhr) {
+                    toastr.error('No se pudo procesar la información de forma adecuada', 'Ejemplo-Restfull', { timeOut: 1000, closeButton: true });
+                    console.log(xhr.responseText);
+                }
+            });
+            
+
+        });
+
+        $('#btnEliminar').click(function () {
+            var id = $('#Id').val();
+            $.ajax({
+                type: 'DELETE',
+                url: 'https://localhost:44361/api/Nombres/' + id,
+                data: '',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    Limpiar();
+                    toastr.success('Se Elimino de Forma Adecuada la Solicitud', { timeOut: 1000, closeButton: true });
+                    console.log(data);
+                },
+                error: function (xhr) {
+                    toastr.error('No se pudo procesar la información de forma adecuada', 'Ejemplo-Restfull', { timeOut: 1000, closeButton: true });
+                    console.log(xhr.responseText);
+                }
+            });
+
+        });
+
+        //$('#btnGuardar').click(function () {
+
+        //    var frm = $(document.enviarForm);
+        //    var formData = JSON.stringify(frm.serializeArray());
+
+        //    var Personas = {};
+        //    Personas.Nombre = $('#Nombre').val();
+        //    Personas.Apellido = $('#Apellido').val();
+        //    Personas.Id = $('#Id').val();
+
+        //    $.ajax({
+        //        type: 'POST',
+        //        url: 'https://localhost:44361/api/Nombres/',
+        //        data: JSON.stringify(Personas),
+        //        dataType: 'json',
+        //        contentType: 'application/json',
+        //        success: function (data) {
+        //            Limpiar();
+        //            toastr.success('Se Inserto de Forma Adecuada la Solicitud', { timeOut: 1000, closeButton: true });
+        //             console.log(data);
+        //        },
+        //        error: function (xhr) {
+        //            toastr.error('No se pudo procesar la información de forma adecuada', 'Digital-Cv dice', { timeOut: 1000, closeButton: true });
+        //            console.log(xhr.responseText);
+        //        }
+        //    });
+        //});
+
+        function Limpiar() {
+            $('#txtgenero').val('');
+
+        }
+    });
+</script>

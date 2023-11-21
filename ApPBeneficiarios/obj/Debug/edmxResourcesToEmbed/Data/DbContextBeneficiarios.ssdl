@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GestionSolicitudesDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="beneficiarios">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" />
+    <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" />
+    <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
+    <Property Name="Curp" Type="varchar" MaxLength="20" />
+    <Property Name="FechaNacimiento" Type="date" />
+    <Property Name="IdSexo" Type="int" />
+    <Property Name="IdTelefono" Type="int" />
+    <Property Name="IdDireccion" Type="int" />
+  </EntityType>
+  <EntityType Name="direcciones">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StrCalle" Type="varchar" MaxLength="30" />
+    <Property Name="StrNumInterior" Type="varchar" MaxLength="20" />
+    <Property Name="StrNumExterior" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="generos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StrValor" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="telefonos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="strNumeroCelular" Type="varchar" MaxLength="15" />
+    <Property Name="strNumeroCasa" Type="varchar" MaxLength="15" />
+    <Property Name="strNumeroTrabajo" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <Association Name="FK_beneficiarios_direcciones">
+    <End Role="direcciones" Type="Self.direcciones" Multiplicity="0..1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="direcciones">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="IdDireccion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_beneficiarios_generos">
+    <End Role="generos" Type="Self.generos" Multiplicity="0..1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="generos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="IdSexo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_beneficiarios_telefonos">
+    <End Role="telefonos" Type="Self.telefonos" Multiplicity="0..1" />
+    <End Role="beneficiarios" Type="Self.beneficiarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="telefonos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="beneficiarios">
+        <PropertyRef Name="IdTelefono" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GestionSolicitudesDBModelStoreContainer">
+    <EntitySet Name="beneficiarios" EntityType="Self.beneficiarios" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="direcciones" EntityType="Self.direcciones" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="generos" EntityType="Self.generos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="telefonos" EntityType="Self.telefonos" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_beneficiarios_direcciones" Association="Self.FK_beneficiarios_direcciones">
+      <End Role="direcciones" EntitySet="direcciones" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_beneficiarios_generos" Association="Self.FK_beneficiarios_generos">
+      <End Role="generos" EntitySet="generos" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_beneficiarios_telefonos" Association="Self.FK_beneficiarios_telefonos">
+      <End Role="telefonos" EntitySet="telefonos" />
+      <End Role="beneficiarios" EntitySet="beneficiarios" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewBag.Title = "CreateGenero";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Generos
+        </div>
+        <div class="card-body">
+            <form id="enviarForm">
+                <h5 class="card-title">Nuevo Registro</h5>
+                <input type="text" placeholder="Ingresa el Genero F/M" class="form-control input-group-sm" required id="txtgenero" />
+                <hr />
+                <input type="button" value="Registrar" class="btn btn-sm btn-success" id="btnRegistrar" />
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#btnRegistrar').click(function () {
+            
+            var nombre = $('#txtgenero').val();
+            var genero = {};
+            genero.StrValor = nombre;
+
+            $('#btnRegistrar').hide();
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://localhost:44338/api/Generos',
+                data: JSON.stringify(genero),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+
+                    
+                    if (data == true) {
+                        Limpiar();
+                        toastr.success('Se Guardo de Forma Adecuada la Solicitud', { timeOut: 1000, closeButton: true });
+                        $('#btnRegistrar').show();    
+                    }
+                    else {
+                        toastr.error('No se pudo procesar la información de forma adecuada', 'Beneficiarios dice:', { timeOut: 1000, closeButton: true });
+                    }
+                    
+                },
+                error: function (xhr) {
+                    toastr.error('No se pudo procesar la información de forma adecuada', 'Beneficiarios dice:', { timeOut: 1000, closeButton: true });
+                    console.log(xhr.responseText);
+                }
+            });
+
+        });
+
+        $('#btnEliminar').click(function () {
+            var id = $('#Id').val();
+            $.ajax({
+                type: 'DELETE',
+                url: 'https://localhost:44361/api/Nombres/' + id,
+                data: '',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    Limpiar();
+                    toastr.success('Se Elimino de Forma Adecuada la Solicitud', { timeOut: 1000, closeButton: true });
+                    console.log(data);
+                },
+                error: function (xhr) {
+                    toastr.error('No se pudo procesar la información de forma adecuada', 'Ejemplo-Restfull', { timeOut: 1000, closeButton: true });
+                    console.log(xhr.responseText);
+                }
+            });
+
+        });
+
+        $('#btnGuardar').click(function () {
+
+            var frm = $(document.enviarForm);
+            var formData = JSON.stringify(frm.serializeArray());
+
+            var Personas = {};
+            Personas.Nombre = $('#Nombre').val();
+            Personas.Apellido = $('#Apellido').val();
+            Personas.Id = $('#Id').val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://localhost:44361/api/Nombres/',
+                data: JSON.stringify(Personas),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    Limpiar();
+                    toastr.success('Se Inserto de Forma Adecuada la Solicitud', { timeOut: 1000, closeButton: true });
+                     console.log(data);
+                },
+                error: function (xhr) {
+                    toastr.error('No se pudo procesar la información de forma adecuada', 'Digital-Cv dice', { timeOut: 1000, closeButton: true });
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        function Limpiar() {
+            $('#txtgenero').val('');
+          
+        }
+    });
+</script>
